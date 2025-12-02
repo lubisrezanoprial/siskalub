@@ -1,1 +1,71 @@
+## 3. _layouts/post.html
+```html
+---
+layout: default
+---
 
+
+    
+        
+            
+            
+                
+                    
+                    
+                        
+                            {{ page.title }}
+                        
+                        
+                        {% if page.description %}
+                        
+                            {{ page.description }}
+                        
+                        {% endif %}
+                        
+                        
+                            {% if page.author %}
+                            
+                                
+                                    
+                                
+                                {{ page.author }}
+                            
+                            {% endif %}
+                            
+                            {% if page.date %}
+                            
+                                
+                                    
+                                
+                                {{ page.date | date: "%d %B %Y" }}
+                            
+                            {% endif %}
+                            
+                            {% if page.updated %}
+                            
+                                
+                                    
+                                
+                                Diperbarui: {{ page.updated | date: "%d %B %Y" }}
+                            
+                            {% endif %}
+                        
+                    
+                    
+                    
+                    
+                        {{ content }}
+                    
+                
+            
+            
+            
+            {% if page.sidebar %}
+            
+                {% include sidebar.html %}
+            
+            {% endif %}
+        
+    
+
+```
