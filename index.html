@@ -1,1 +1,41 @@
+```html
+---
+layout: default
+title: Home
+---
 
+
+    
+        
+            Welcome to {{ site.title }}
+        
+        
+            {{ site.description }}
+        
+        
+            Lihat Blog Posts
+        
+    
+
+
+
+
+    
+        Latest Posts
+        
+        
+            {% for post in site.posts limit:3 %}
+            
+                
+                    
+                        {{ post.title }}
+                    
+                
+                {{ post.description }}
+                {{ post.date | date: "%d %B %Y" }}
+            
+            {% endfor %}
+        
+    
+
+```
