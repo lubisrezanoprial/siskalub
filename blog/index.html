@@ -1,1 +1,39 @@
+```html
+---
+layout: default
+title: Blog
+---
 
+
+    
+        Blog Posts
+        
+        
+            {% for post in site.posts %}
+            
+                
+                    
+                        
+                            {{ post.title }}
+                        
+                    
+                    
+                    {% if post.description %}
+                    
+                        {{ post.description }}
+                    
+                    {% endif %}
+                    
+                    
+                        {{ post.date | date: "%d %B %Y" }}
+                        {% if post.author %}
+                        {{ post.author }}
+                        {% endif %}
+                    
+                
+            
+            {% endfor %}
+        
+    
+
+```
