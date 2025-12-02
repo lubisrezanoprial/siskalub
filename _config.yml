@@ -1,1 +1,23 @@
+title: Blog Saya
+description: Deskripsi blog Anda
+url: "https://username.github.io"
+baseurl: ""
 
+permalink: /blog/:title/
+
+markdown: kramdown
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+collections:
+  posts:
+    output: true
+    permalink: /blog/:title/
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
