@@ -1,59 +1,164 @@
-## 2. _layouts/default.html
-```html
-
-
-
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
+    <!-- Title -->
+    <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
     
-    {% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}
+    <!-- SEO Meta Tags -->
+    {% if page.description %}
+    <meta name="description" content="{{ page.description }}">
+    {% elsif site.description %}
+    <meta name="description" content="{{ site.description }}">
+    {% endif %}
     
+    {% if page.author %}
+    <meta name="author" content="{{ page.author }}">
+    {% endif %}
     
-
-
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+    <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+    {% if page.description %}
+    <meta property="og:description" content="{{ page.description }}">
+    {% endif %}
+    <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#1e40af',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom CSS -->
+    <style>
+        /* Smooth transitions */
+        * {
+            transition-property: background-color, border-color, color, fill, stroke;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms;
+        }
+        
+        /* Header hide animation */
+        #main-header {
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        /* Prose styling for markdown content */
+        .prose {
+            color: #374151;
+            max-width: 65ch;
+        }
+        
+        .prose img {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .prose table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .prose th {
+            background-color: #f3f4f6;
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .prose td {
+            padding: 0.75rem;
+            border: 1px solid #e5e7eb;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
+    
+    <!-- Header -->
     {% include header.html %}
     
-    
+    <!-- Main Content -->
+    <main class="flex-grow">
         {{ content }}
+    </main>
     
-    
+    <!-- Footer -->
     {% include footer.html %}
     
-    
+    <!-- JavaScript -->
+    <script>
         // Mobile menu toggle
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const menuIcon = document.getElementById('menu-icon');
         const closeIcon = document.getElementById('close-icon');
         
-        menuBtn?.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-            menuIcon.classList.toggle('hidden');
-            closeIcon.classList.toggle('hidden');
-        });
-
+        if (menuBtn && mobileMenu) {
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                if (menuIcon && closeIcon) {
+                    menuIcon.classList.toggle('hidden');
+                    closeIcon.classList.toggle('hidden');
+                }
+            });
+        }
+        
         // Hide/show header on scroll
         let lastScroll = 0;
         const header = document.getElementById('main-header');
         
-        window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
-            
-            if (currentScroll <= 0) {
-                header.classList.remove('-translate-y-full');
-                return;
+        if (header) {
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset;
+                
+                if (currentScroll <= 0) {
+                    header.classList.remove('-translate-y-full');
+                    return;
+                }
+                
+                if (currentScroll > lastScroll && currentScroll > 100) {
+                    // Scroll down - hide header
+                    header.classList.add('-translate-y-full');
+                } else {
+                    // Scroll up - show header
+                    header.classList.remove('-translate-y-full');
+                }
+                
+                lastScroll = currentScroll;
+            });
+        }
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                if (!e.target.closest('#mobile-menu') && !e.target.closest('#menu-btn')) {
+                    mobileMenu.classList.add('hidden');
+                    if (menuIcon && closeIcon) {
+                        menuIcon.classList.remove('hidden');
+                        closeIcon.classList.add('hidden');
+                    }
+                }
             }
-            
-            if (currentScroll > lastScroll && currentScroll > 100) {
-                // Scroll down
-                header.classList.add('-translate-y-full');
-            } else {
-                // Scroll up
-                header.classList.remove('-translate-y-full');
-            }
-            
-            lastScroll = currentScroll;
         });
+    </script>
     
-
-
-```
+</body>
+</html>
