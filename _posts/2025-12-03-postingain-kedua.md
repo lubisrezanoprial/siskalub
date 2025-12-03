@@ -13,6 +13,11 @@ permalink: /blog/postingain-kedua/
 ## Heading 2
 ### Heading 3
 
+<img src="https://placehold.co/800x450"
+title="Title Image"
+     alt="This is an alt text."
+     width="800" height="450" />
+
 Ini adalah **bold text** dan ini *italic*.
 
 - List item 1
