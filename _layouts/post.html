@@ -10,6 +10,45 @@ layout: default
             
             <!-- Header -->
             <header class="mb-8 pb-6 border-b border-gray-200">
+                <!-- Breadcrumb with Schema.org Microdata -->
+                <nav class="mb-4" aria-label="Breadcrumb">
+                    <ol itemscope itemtype="https://schema.org/BreadcrumbList" class="flex flex-wrap items-center gap-2 text-sm text-gray-600">
+                        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                            <a itemprop="item" href="{{ site.baseurl }}/" class="hover:text-blue-600 transition">
+                                <span itemprop="name">Home</span>
+                            </a>
+                            <meta itemprop="position" content="1" />
+                        </li>
+                        <li class="text-gray-400">/</li>
+                        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                            <a itemprop="item" href="{{ site.baseurl }}/blog/" class="hover:text-blue-600 transition">
+                                <span itemprop="name">Blog</span>
+                            </a>
+                            <meta itemprop="position" content="2" />
+                        </li>
+                        {% if page.categories %}
+                            {% assign position = 3 %}
+                            {% for category in page.categories %}
+                                <li class="text-gray-400">/</li>
+                                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                                    <a itemprop="item" href="{{ site.baseurl }}/blog/{{ category | slugify }}/" class="hover:text-blue-600 transition">
+                                        <span itemprop="name">{{ category }}</span>
+                                    </a>
+                                    <meta itemprop="position" content="{{ position }}" />
+                                </li>
+                                {% assign position = position | plus: 1 %}
+                            {% endfor %}
+                        {% endif %}
+                        <!-- Current page (not visible but in schema) -->
+                        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="hidden">
+                            <span itemprop="item" itemscope itemtype="https://schema.org/WebPage">
+                                <span itemprop="name">{{ page.title }}</span>
+                            </span>
+                            <meta itemprop="position" content="{% if page.categories %}{{ position }}{% else %}3{% endif %}" />
+                        </li>
+                    </ol>
+                </nav>
+                
                 <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                     {{ page.title }}
                 </h1>
