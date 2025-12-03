@@ -49,11 +49,17 @@ title: Home
             {% for post in site.posts limit:3 %}
             <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition group overflow-hidden">
                 
-                <!-- Post Image Placeholder -->
-                <div class="h-48 bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
-                    <svg class="w-16 h-16 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                    </svg>
+                <!-- Post Image -->
+                <div class="h-48 overflow-hidden">
+                    {% if post.image %}
+                    <img src="{{ post.image }}" alt="{{ post.title }}" class="w-full h-full object-cover hover:scale-105 transition duration-300">
+                    {% else %}
+                    <div class="w-full h-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
+                        <svg class="w-16 h-16 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                    </div>
+                    {% endif %}
                 </div>
                 
                 <div class="p-6">
