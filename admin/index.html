@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Post Generator</title>
+    <title>Blog Post Generator v2</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body class="bg-gray-50 min-h-screen">
-    <!-- Header -->
     <header class="bg-white border-b sticky top-0 z-40 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center gap-2">
                 <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
-                <h1 class="text-xl font-bold">Blog Post Generator</h1>
+                <h1 class="text-xl font-bold">Blog Post Generator v2</h1>
             </div>
             <button id="configBtn" class="p-2 hover:bg-gray-100 rounded transition">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -25,112 +24,62 @@
         </div>
     </header>
 
-    <!-- Config Panel -->
     <div id="configPanel" class="hidden bg-blue-50 border-b">
         <div class="max-w-7xl mx-auto px-4 py-4">
             <h3 class="font-semibold mb-3">⚙️ Konfigurasi GitHub</h3>
             <div class="grid md:grid-cols-3 gap-3 mb-3">
-                <input
-                    type="text"
-                    id="githubUsername"
-                    placeholder="GitHub Username"
-                    class="px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none bg-white"
-                />
-                <input
-                    type="text"
-                    id="githubRepo"
-                    placeholder="Repository Name (tanpa .github.io)"
-                    class="px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none bg-white"
-                />
-                <input
-                    type="password"
-                    id="githubToken"
-                    placeholder="Personal Access Token"
-                    class="px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none bg-white"
-                />
+                <input type="text" id="githubUsername" placeholder="GitHub Username" class="px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none bg-white"/>
+                <input type="text" id="githubRepo" placeholder="Repository Name" class="px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none bg-white"/>
+                <input type="password" id="githubToken" placeholder="Personal Access Token" class="px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none bg-white"/>
             </div>
-            <button
-                id="saveConfigBtn"
-                class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition font-medium"
-            >
-                💾 Simpan Konfigurasi
-            </button>
+            <button id="saveConfigBtn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition font-medium">💾 Simpan Konfigurasi</button>
         </div>
     </div>
 
-    <!-- Status Message -->
     <div id="statusMsg" class="hidden"></div>
 
-    <!-- Main Form -->
     <main class="max-w-7xl mx-auto px-4 py-6">
         <div class="bg-white rounded-lg shadow-sm p-6">
             <div class="grid md:grid-cols-2 gap-4 mb-4">
                 <div>
                     <label class="block text-sm font-medium mb-1 text-gray-700">Judul *</label>
-                    <input
-                        type="text"
-                        id="postTitle"
-                        class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
-                        placeholder="Masukkan judul artikel"
-                    />
+                    <input type="text" id="postTitle" class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Masukkan judul artikel"/>
                 </div>
                 
                 <div>
                     <label class="block text-sm font-medium mb-1 text-gray-700">Slug (Auto-generated)</label>
-                    <input
-                        type="text"
-                        id="postSlug"
-                        class="w-full px-3 py-2 border border-gray-300 rounded bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none"
-                        placeholder="auto-dari-judul"
-                    />
+                    <input type="text" id="postSlug" class="w-full px-3 py-2 border border-gray-300 rounded bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="auto-dari-judul"/>
                 </div>
 
                 <div class="md:col-span-2">
                     <label class="block text-sm font-medium mb-1 text-gray-700">Meta Deskripsi *</label>
-                    <textarea
-                        id="postDescription"
-                        class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
-                        rows="2"
-                        placeholder="Deskripsi singkat untuk SEO (ditampilkan setelah judul)"
-                    ></textarea>
+                    <textarea id="postDescription" class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none" rows="2" placeholder="Deskripsi singkat untuk SEO"></textarea>
+                </div>
+
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium mb-1 text-gray-700">Featured Image URL 🆕</label>
+                    <input type="url" id="postImage" class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none" placeholder="https://example.com/image.jpg (opsional)"/>
+                    <p class="text-xs text-gray-500 mt-1">💡 Upload gambar ke <a href="https://imgur.com/" target="_blank" class="text-blue-600 underline">Imgur</a> atau gunakan URL gambar lain</p>
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium mb-1 text-gray-700">Author *</label>
-                    <input
-                        type="text"
-                        id="postAuthor"
-                        class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
-                        placeholder="Nama penulis"
-                    />
+                    <input type="text" id="postAuthor" class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Nama penulis"/>
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium mb-1 text-gray-700">Tanggal Posting *</label>
-                    <input
-                        type="date"
-                        id="postDate"
-                        class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
-                    />
+                    <input type="date" id="postDate" class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"/>
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium mb-1 text-gray-700">Tanggal Update (Opsional)</label>
-                    <input
-                        type="date"
-                        id="postUpdateDate"
-                        class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
-                    />
+                    <input type="date" id="postUpdateDate" class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"/>
                 </div>
 
                 <div class="flex items-center">
                     <label class="flex items-center gap-2 cursor-pointer">
-                        <input
-                            type="checkbox"
-                            id="showSidebar"
-                            checked
-                            class="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
-                        />
+                        <input type="checkbox" id="showSidebar" checked class="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"/>
                         <span class="text-sm font-medium text-gray-700">Tampilkan Sidebar</span>
                     </label>
                 </div>
@@ -138,40 +87,17 @@
 
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-1 text-gray-700">Konten Artikel (Markdown) *</label>
-                <textarea
-                    id="postContent"
-                    class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none font-mono text-sm"
-                    rows="15"
-                    placeholder="Tulis konten artikel dalam format Markdown...
-
-Contoh:
-## Heading 2
-### Heading 3
-
-**Bold text**
-*Italic text*
-
-- List item 1
-- List item 2
-
-[Link text](https://example.com)"
-                ></textarea>
+                <textarea id="postContent" class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none font-mono text-sm" rows="15" placeholder="Tulis konten artikel dalam format Markdown..."></textarea>
             </div>
 
             <div class="flex gap-3">
-                <button
-                    id="publishBtn"
-                    class="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition font-medium"
-                >
+                <button id="publishBtn" class="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition font-medium">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/>
                     </svg>
                     Publikasikan
                 </button>
-                <button
-                    id="previewBtn"
-                    class="flex items-center gap-2 px-6 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition font-medium"
-                >
+                <button id="previewBtn" class="flex items-center gap-2 px-6 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition font-medium">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
@@ -180,27 +106,8 @@ Contoh:
                 </button>
             </div>
         </div>
-
-        <!-- Instructions -->
-        <div class="mt-6 bg-blue-50 rounded-lg p-6 border border-blue-200">
-            <h3 class="font-bold mb-3 text-blue-900">📋 Cara Penggunaan:</h3>
-            <ol class="list-decimal list-inside space-y-2 text-sm text-blue-800">
-                <li>Klik icon Settings (⚙️) di kanan atas untuk mengisi konfigurasi GitHub</li>
-                <li>Buat Personal Access Token di GitHub:
-                    <ul class="ml-6 mt-1 list-disc">
-                        <li>Buka: <a href="https://github.com/settings/tokens" target="_blank" class="underline">GitHub Settings > Developer settings > Personal access tokens</a></li>
-                        <li>Generate new token (classic) dengan scope: <strong>repo</strong></li>
-                    </ul>
-                </li>
-                <li>Isi username GitHub, nama repository (contoh: username.github.io), dan token</li>
-                <li>Tulis artikel Anda di form ini</li>
-                <li>Klik "Publikasikan" untuk menambahkan ke repository</li>
-                <li>Artikel akan muncul di <code class="bg-blue-100 px-1 rounded">/blog/slug-artikel/</code></li>
-            </ol>
-        </div>
     </main>
 
-    <!-- Preview Modal -->
     <div id="previewModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto">
             <div class="sticky top-0 bg-white border-b p-4 flex justify-between items-center">
@@ -218,10 +125,8 @@ Contoh:
     </div>
 
     <script>
-        // Initialize date
         document.getElementById('postDate').value = new Date().toISOString().split('T')[0];
 
-        // Load saved config
         const loadConfig = () => {
             document.getElementById('githubUsername').value = localStorage.getItem('github_username') || '';
             document.getElementById('githubRepo').value = localStorage.getItem('github_repo') || '';
@@ -229,12 +134,10 @@ Contoh:
         };
         loadConfig();
 
-        // Toggle config panel
         document.getElementById('configBtn').addEventListener('click', () => {
             document.getElementById('configPanel').classList.toggle('hidden');
         });
 
-        // Save config
         document.getElementById('saveConfigBtn').addEventListener('click', () => {
             localStorage.setItem('github_username', document.getElementById('githubUsername').value);
             localStorage.setItem('github_repo', document.getElementById('githubRepo').value);
@@ -243,19 +146,12 @@ Contoh:
             showStatus('✅ Konfigurasi disimpan!', 'success');
         });
 
-        // Auto-generate slug
         document.getElementById('postTitle').addEventListener('input', (e) => {
             const title = e.target.value;
-            const slug = title
-                .toLowerCase()
-                .replace(/[^a-z0-9\s-]/g, '')
-                .replace(/\s+/g, '-')
-                .replace(/-+/g, '-')
-                .trim();
+            const slug = title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
             document.getElementById('postSlug').value = slug;
         });
 
-        // Show status message
         const showStatus = (message, type = 'info') => {
             const statusMsg = document.getElementById('statusMsg');
             const colors = {
@@ -269,7 +165,6 @@ Contoh:
             setTimeout(() => statusMsg.classList.add('hidden'), 5000);
         };
 
-        // Generate markdown
         const generateMarkdown = () => {
             const title = document.getElementById('postTitle').value;
             const description = document.getElementById('postDescription').value;
@@ -279,6 +174,7 @@ Contoh:
             const content = document.getElementById('postContent').value;
             const showSidebar = document.getElementById('showSidebar').checked;
             const slug = document.getElementById('postSlug').value;
+            const image = document.getElementById('postImage').value;
 
             return `---
 layout: post
@@ -287,6 +183,7 @@ description: "${description}"
 author: "${author}"
 date: ${date}
 ${updateDate ? `updated: ${updateDate}` : ''}
+${image ? `image: "${image}"` : ''}
 sidebar: ${showSidebar}
 permalink: /blog/${slug}/
 ---
@@ -294,7 +191,6 @@ permalink: /blog/${slug}/
 ${content}`;
         };
 
-        // Preview
         document.getElementById('previewBtn').addEventListener('click', () => {
             document.getElementById('previewContent').textContent = generateMarkdown();
             document.getElementById('previewModal').classList.remove('hidden');
@@ -304,7 +200,6 @@ ${content}`;
             document.getElementById('previewModal').classList.add('hidden');
         });
 
-        // Publish post
         document.getElementById('publishBtn').addEventListener('click', async () => {
             const username = localStorage.getItem('github_username');
             const repo = localStorage.getItem('github_repo');
@@ -334,31 +229,28 @@ ${content}`;
             const encodedContent = btoa(unescape(encodeURIComponent(markdown)));
 
             try {
-                const response = await fetch(
-                    `https://api.github.com/repos/${username}/${repo}/contents/${filePath}`,
-                    {
-                        method: 'PUT',
-                        headers: {
-                            'Authorization': `token ${token}`,
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            message: `Add blog post: ${title}`,
-                            content: encodedContent,
-                        })
-                    }
-                );
+                const response = await fetch(`https://api.github.com/repos/${username}/${repo}/contents/${filePath}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: `Add blog post: ${title}`,
+                        content: encodedContent,
+                    })
+                });
 
                 if (response.ok) {
                     showStatus('✅ Artikel berhasil dipublikasikan!', 'success');
                     setTimeout(() => {
-                        // Reset form but keep author
                         const author = document.getElementById('postAuthor').value;
                         document.getElementById('postTitle').value = '';
                         document.getElementById('postSlug').value = '';
                         document.getElementById('postDescription').value = '';
                         document.getElementById('postContent').value = '';
                         document.getElementById('postUpdateDate').value = '';
+                        document.getElementById('postImage').value = '';
                         document.getElementById('postDate').value = new Date().toISOString().split('T')[0];
                         document.getElementById('postAuthor').value = author;
                         document.getElementById('showSidebar').checked = true;
