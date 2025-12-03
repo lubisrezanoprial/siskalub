@@ -57,7 +57,44 @@
                 </div>
 
                 <div class="md:col-span-2">
-                    <label class="block text-sm font-medium mb-1 text-gray-700">Featured Image URL 🆕</label>
+                    <label class="block text-sm font-medium mb-1 text-gray-700">Kategori 🆕</label>
+                    <select id="postCategory" class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none">
+                        <option value="">-- Pilih Kategori --</option>
+                        <optgroup label="Pendidikan">
+                            <option value="Pendidikan">Pendidikan</option>
+                            <option value="Pendidikan,Kurikulum">Pendidikan > Kurikulum</option>
+                            <option value="Pendidikan,Metode Pembelajaran">Pendidikan > Metode Pembelajaran</option>
+                            <option value="Pendidikan,Evaluasi">Pendidikan > Evaluasi</option>
+                        </optgroup>
+                        <optgroup label="Teknologi">
+                            <option value="Teknologi">Teknologi</option>
+                            <option value="Teknologi,Pemrograman">Teknologi > Pemrograman</option>
+                            <option value="Teknologi,Pemrograman,Web Development">Teknologi > Pemrograman > Web Development</option>
+                            <option value="Teknologi,Pemrograman,Mobile Development">Teknologi > Pemrograman > Mobile Development</option>
+                            <option value="Teknologi,Database">Teknologi > Database</option>
+                            <option value="Teknologi,AI & Machine Learning">Teknologi > AI & Machine Learning</option>
+                        </optgroup>
+                        <optgroup label="Penelitian">
+                            <option value="Penelitian">Penelitian</option>
+                            <option value="Penelitian,Metodologi">Penelitian > Metodologi</option>
+                            <option value="Penelitian,Publikasi">Penelitian > Publikasi</option>
+                        </optgroup>
+                        <optgroup label="Tutorial">
+                            <option value="Tutorial">Tutorial</option>
+                            <option value="Tutorial,Beginner">Tutorial > Beginner</option>
+                            <option value="Tutorial,Advanced">Tutorial > Advanced</option>
+                        </optgroup>
+                        <optgroup label="Lainnya">
+                            <option value="Opini">Opini</option>
+                            <option value="Berita">Berita</option>
+                            <option value="Tips & Tricks">Tips & Tricks</option>
+                        </optgroup>
+                    </select>
+                    <p class="text-xs text-gray-500 mt-1">💡 Kategori akan menentukan struktur URL: /blog/kategori/sub-kategori/</p>
+                </div>
+
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium mb-1 text-gray-700">Featured Image URL</label>
                     <input type="url" id="postImage" class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none" placeholder="https://example.com/image.jpg (opsional)"/>
                     <p class="text-xs text-gray-500 mt-1">💡 Upload gambar ke <a href="https://imgur.com/" target="_blank" class="text-blue-600 underline">Imgur</a> atau gunakan URL gambar lain</p>
                 </div>
@@ -175,6 +212,20 @@
             const showSidebar = document.getElementById('showSidebar').checked;
             const slug = document.getElementById('postSlug').value;
             const image = document.getElementById('postImage').value;
+            const categoryValue = document.getElementById('postCategory').value;
+            
+            // Parse categories for YAML array format
+            let categoriesYaml = '';
+            let permalink = `/blog/${slug}/`;
+            
+            if (categoryValue) {
+                const categories = categoryValue.split(',').map(c => c.trim());
+                categoriesYaml = `categories: [${categories.map(c => `"${c}"`).join(', ')}]`;
+                
+                // Generate permalink based on categories
+                const categorySlug = categories.map(c => c.toLowerCase().replace(/[^a-z0-9]+/g, '-')).join('/');
+                permalink = `/blog/${categorySlug}/${slug}/`;
+            }
 
             return `---
 layout: post
@@ -184,8 +235,9 @@ author: "${author}"
 date: ${date}
 ${updateDate ? `updated: ${updateDate}` : ''}
 ${image ? `image: "${image}"` : ''}
+${categoriesYaml}
 sidebar: ${showSidebar}
-permalink: /blog/${slug}/
+permalink: ${permalink}
 ---
 
 ${content}`;
